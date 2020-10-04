@@ -1,0 +1,1179 @@
+﻿一、对目录操作：
+1.ls：浏览当前目录；  -a：浏览隐藏的文件    -l：显示文件的详细信息
+2.pwd：显示文件当前所在的路径（绝对路径）
+3.mkdir：创建一个目录，在当前路径下创建  -p：递归创建一个目录  
+4.rmdir：删除一个空目录，清理空目录  -p：递归清理目录中的所有文件
+5.rm：删除目录或文件。  -r：递归删除一个目录及其所有文件。   -f：忽略提示删除目录/文件    -i：逐一询问后删除目录/文件     -rf：忽略提示递归删除一个目录下的所有文件
+6.cp：拷贝一个目录下文件到另一个目录中。  -r：递归拷贝指定目录下的所有文件。   -f：忽略提示拷贝目录/文件   -i：逐一询问后拷贝目录/文件。  -rf：忽略提示递归拷贝一个目录下的所有文件。
+7.mv：剪切一个目录下文件到另一个目录中。 
+8.cd：浏览任意一个目录，改变当前路径到指定路径中。
+
+二、对文件操作：
+1.cat：打印到终端显示
+2.touch：创建一个空文件，本质是刷新文件的时间属性
+3.stat：查看文件的详细信息。
+4.head：显示前10行内容，-n：显示前n行内容
+5.tail：显示最后10内容，  -n：显示最后n行内容。
+6.more：分页显示文件的内容   回车：向下一次走一行。   空格：向下一次走一页。 q：退出
+7.less：分页显示字符串匹配，按n找下一个。q：退出，f：向下翻页；b：向上翻页；/string：在内容中向下匹配string；?string ：在内容中向上匹配string
+8.常见的压缩/解压缩方式：
+   （1）gzip/gunzip
+   （2）zip/unzip
+   （3）bzip2/bunzip2（压缩比例最高）
+   tar：打包/解包  -c：打包；  -x：解包；  -v：显示详细的打包文件信息
+                            -z：打包/解包同时进行gzip格式压缩/gunzip格式解压缩
+                             -j：打包/解包同时进行bzip2格式压缩/bzip2格式解压
+                             -f：打包/解包时用于指定包名称
+
+
+三、查找匹配命令
+1.find：在指定目录下找指定的文件。  -name：按照指定文件名查找。   -type：找指定的文件格式
+2.grep：在指定文件中匹配指定字符串。-i：忽略大小写；  -v：反向匹配。  -R：对一个目录下所有文件内容进行匹配   -n：顺便打印行号
+3.如何根据关键字查询，如何替换某个关键字：没有打开文件的前提就用"cat 文件名 | grep “关键字”"
+
+语法：sed -i “s/原字符串/新字符串/g” grep 原字符串 -rl 所在目录
+例如：我要把mahuinan替换为huinanma，
+执行命令：sed -i "s/mahuinan/huinanma/g" `grep mahuinan -rl /path`
+
+
+四、时间命令
+1.date： 显示/设置时间。date -s +%年:%月:%日
+2.cal：-y：显示当年日历
+
+五、其他命令
+1.man：查看命令手册
+2.ifconfig：查看网卡信息ens33
+3.echo：打印数据到终端显示
+4.>：清空重定向
+   >>：追加重定向
+5.shutdown（关机）： -h：将系统的服务停掉后，立即关机。    -r：在系统的服务停掉后重启。  -t second：在服务停掉后second秒后关键
+
+
+echo $PATH：打印指定环境变量的内容
+env：查看所有环境变量
+unset：删除一个环境变量
+set：查看所有变量包括环境变量在内
+
+
+六、进程
+1.查看进程：ps
+2.查询都有哪些进程占用了指定的文件、目录、设备或套接字;fuser
+  -c 包含 File的文件系统中关于任何打开的文件的报告.    
+  -d 暗示使用了 -c 和 -x 标志.关于任何与文件系统(自父目录删除的)无链接的打开文件的报告.当与 -V 标志一起使用时,它也会报告被删除文件的节点号和大小.
+  -f 仅对文件的打开实例报告.
+  -k 将 SIGKILL 信号发送到每个本地进程.仅有根用户能终止另一用户的进程.
+  -u 为进程号后圆括号中的本地进程提供登录名.
+  -V 提供详细输出.
+  -x 与 -c 或 -f 连用,报告除标准fuse 输出以外的可执行的和可载入的对象.
+
+   要列出正在使用文件(已从给定文件系统删除的文件)的全部进程,请输入:
+                    fuser -d /usr 文件
+
+
+lsof不加参数，可以列出被进程所打开的文件的信息
+3.lsof /path/to/file
+   只需要执行文件的路径，lsof就会列出所有使用这个文件的进程，你也可以列出多个文件，lsof会列出所有使用这些文件的进程。
+   lsof -c apache
+   -c选项限定只列出以apache开头的进程打开的文件：
+
+4.ps命令用于显示当前进程 (process) 的状态。
+
+
+https是在http协议基础上加入加密处理和认证机制以及完整性保护，即http+加密+认证+完整性保护=https
+https并非应用层的一种新协议，只是http通信接口部分用ssl/tls协议代替而已。通常http直接和tcp通信，当使用ssl时
+则演变成先和ssl通信，再由ssl和tcp通信。
+所谓https，其实就是身披ssl协议这层外壳的http
+
+从输入URL到页面显示都经历了什么
+过程解析
+ 1、首先，我们在浏览器地址栏中，输入要查找页面的url，按下Enter。
+ 2、浏览器依次在 浏览器缓存 ------》系统缓存 -----》路由器缓存中去寻找匹配的url，如果这些缓存中有，就会直接在屏幕中显示出页面内容。若没有，则跳到第三步操作。
+ 3、在发送http请求前，浏览器需要先进行域名解析(即DNS解析)，以获取相应的IP地址。
+ 4、获取到IP地址之后。浏览器向服务器发起TCP连接，与浏览器建立TCP三次握手。
+ 5、握手成功之后，浏览器就会向服务器发送HTTP请求，来请求服务器端的数据包。
+ 6、服务器处理从浏览器端收到的请求，接着将数据返回给浏览器。
+ 7、浏览器收到HTTP响应。
+ 8、再读取页面内容、进行浏览器渲染、解析html源码。
+ 9、生成DOM树、解析css样式、处理js交互。
+ 10、客户端和服务器交互。
+ 11、ajax查询状态，状态成功则显示url对应的页面内容。
+ 12、关闭TCP连接（四次挥手）。
+
+
+
+
+//l和v的区别：程序运行参数的赋值方式不同
+//带e和不带e的区别：新程序的环境变量是否由自己来进行赋值的。
+//带e是自己设置环境变量，不带e是用原来的环境变量，子进程的环境变量实际上都是父进程给的。
+//带p和不带p的区别：在于第一个参数，带p是可执行程序文件的路径名
+execl(char* path, char* argv, ...);
+execlp(const char* file, char* argv, ...);
+execle(char* path, char* arg, ..., char* env[]);
+
+execv(char* path, char* argv[]);
+execvp(char* file, char* argv[]);
+execve(char* path, char* const argv[], char* const envp[]);
+————————————————
+版权声明：本文为CSDN博主「Sheena爽」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/Sheena997/article/details/106521595
+
+
+
+
+测试的分类：
+1.按开发阶段划分：（1）单元测试（测试方法：白盒测试） （2）集成测试（白盒测试和黑盒测试相结合）
+                             （3）系统测试（黑盒测试） （4）回归测试（指修改了旧代码，重新进行测试以确认修改没有引入新的错误或者导致其他代码产生错误）
+                             （5）冒烟测试（先进行冒烟测试，保证基本功能正常，不阻碍后续的测试）（6）验收测试 （黑盒测试）：是部署软件之前的最后一个测试操作，也称交付测试
+2.按测试实施组织：（1）α测试（是由一个用户在开发环境下进行的测试，也可是公司内部的用户在模拟实际操作环境下进行的测试）
+                             （2）β测试（是一种验收测试，由软件的最终用户们在一个或多个场所进行）
+                             （3）第三方测试（介于开发方好用户方间的组织的测试）
+3.按是否运行划分：（1）静态测试
+                             （2）动态测试
+4.按是否手工划分：（1）手工测试
+                              （2）自动化测试
+5.按是否查看代码划分：（1）黑盒测试
+                                    （2）白盒测试
+                                    （3）灰盒测试
+6.按测试地域划分：（1）国际化测试
+                             （2）本地化测试
+7.按测试对象划分：（1）业务测试：是测试人员把系统各个模块串接起来运行、模拟真实用户实际的工作流程，满足用户需求定义的功能来进行测试的
+                             （2）界面测试
+                             （3）容错性测试
+                             （4）文档测试
+                             （5）兼容性测试
+                             （6）易用性测试：又叫用户体验测试
+                             （7）安装测试
+                             （8）安全测试
+                             （9）性能测试
+                             （10）内存泄漏测试
+
+敏捷开发 Scrum
+角色：
+1.product owner（产品经理）、scrum master（项目经理）和team（研发团队）组成
+   product owner负责整理user story（用户故事），定义其商业价值，对其进行排序，制定发布计划，对产品负责
+   scrum master负责召开各种会议，协调项目，为研发团队服务
+   研发团队则由不同技能的成员组成，通过紧密协同，完成每一次迭代的目标，交付产品
+
+
+scrum的基本流程：
+1.产品经理负责整理user story，形成product backlog
+2.发布计划会议：product owner负责讲解user story，对其进行估算和排序，发布计划会议的产出就是制定出这一期迭代要完成的story列表，sprint backlog
+3.迭代计划会议：项目团队对每个story进行任务分解，分解的标准是完成story的所有任务，每个任务都有明确的负责人，并完成工时的初估计
+4.每日例会：每天scrum master召集站立会议，做三件事：昨天做了什么、今天计划做什么、有什么问题
+5.演示会议：迭代会议结束之后，召开演示会议，团队负责向大家展示本次迭代取得的成功。期间大家的反馈记录下来，由po整理，生成新的story
+6.回顾会议：项目团队对本期迭代进行总结，发现不同，制定改进计划，下一次迭代继续改进，已达到持续改进的效果
+
+
+需求分析（需求串讲、验证、从设计需求中提取）--测试计划（测试方案、测试策略）-测试用例编写（需求测试）--测
+试执行（冒烟测试、系统测试、回归测试，交叉测试、自由测试）--测试报告（缺陷分析、测试结论）
+
+
+
+模板为什么不能分离编译?
+编译器处理代码分为预处理阶段、编译阶段、汇编阶段、链接阶段四个阶段
+其中预处理阶段：展开头文件、条件编译、宏替换、去掉注释
+编译阶段：对代码的语法、语义分析，进行错误检查，然后生成无错误的汇编代码。
+汇编阶段：将汇编代码转换成二进制机器码，生成可重定位的目标文件
+链接阶段：将所有obj文件合并成一个.o可执行文件，并且处理没有解决的地址问题。
+而编译器中模板机制让模板进行二次编译
+第一次编译发生在实例化之前，进行语法、语义的错误检查
+第二次编译发生在实例化之后，把这个类型替换之后，看看有没有语法、语义错误。
+而在第二次编译时，模板代码的实体是在一个文件中，而实例化模板的测试代码在另一个文件中，编译器不知道，
+在链接之前，两个文件是不知道彼此的存在的，因此模板代码没有进行实例化，编译器不会为其生成代码，链接
+时通过函数名在符号表中找函数的地址也是找不到的，因此出现了链接错误
+
+
+selenium1：selenium IDE、selenium RC、selenium Grid
+selenium2：selenium1 + webdriver
+selenium3：selenium2 + edge Safari的原生驱动
+
+selenium工具集的特点：
+1.支持多平台：IE、Chrome、Firefox、edge、Safari
+2.支持多语言：Python、C#、Java、C、Ruby、js
+3.支持分布式
+
+
+UI、接口分别适用于什么项目，适合在什么时机做这种自动化合适
+UI：适用于界面比较稳定的项目，时机：前端开发完成之后，并且项目功能稳定
+接口：适用于后端开发完成，并且项目功能稳定；时机：后端完成之后，就可以进行接口测试
+自动化测试的演变：测试工具 - 数据驱动 - 关键字驱动 - 测试框架 - 测试平台
+
+
+
+
+selenuim工具集，webdriver API，unittest;
+
+
+
+吞吐量(吞吐率）和响应时间的解释用理发师模型
+并发数
+
+
+
+
+性能测试的模型：
+1.曲线拐点模型：分为轻压力区、重压力区和拐点区   最佳并发用户数是轻压力区和重压力区之间的拐点处。（在资源利用率、吞吐量、响应时间的拐点前）
+                                                                               最大并发用户数是重压力区和拐点区之间的拐点处。（吞吐量下降前一丢丢，响应时间上升前一丢丢）
+2.地铁模型：某地铁站进站只有3个刷卡机。。。。
+人少的情况下，每位乘客很快就可以刷卡进站，假设进站需要1s。
+乘客耐心有限，如果等待超过30min，就暴躁、唠叨，甚至放弃。
+场景一：只有1名乘客进站时，这名乘客可以在1s的时间内完成进站，且只利用了一台刷卡机，剩余2台等待着。
+场景二：只有2名乘客进站时，2名乘客仍都可以在1s的时间内完成进站，且利用了2台刷卡机，剩余1台等待着。
+场景三：只有3名乘客进站时，3名乘客还能在1s的时间内完成进站，且利用了3台刷卡机，资源得到充分利用。
+比特科技场景四：A、B、C三名乘客进站，同时D、E、F乘客也要进站，因为A、B、C先到，所以D、E、F乘客需要排队。
+那么，A、B、C乘客进站时间为1s，而D、E、F乘客必须等待1s，所以他们3位在进站的时间是2s。
+场景五：假设这次进站一次来了9名乘客，有3名的“响应时间”为1s，有3名的“响应时间”为2s（等待1s+进站1s），
+还有3名的“响应时间”为3s（等待2s+进站1s）。
+场景六：如果地铁正好在火车站，每名乘客都拿着大小不同的包，包太大导致卡在刷卡机堵塞，每名乘客的进站时
+间就会又不一样。刷卡机有加宽的和正常宽度的两种类型，那么拿大包的乘客可以通过加宽的刷卡机快速进站（增
+加带宽）。
+场景七：进站的乘客越来越多，3台刷卡机已经无法满足需求，为了减少人流的积压，需要再多开几个刷卡机，增
+加进站的人流与速度（提升TPS、增大连接数）。
+场景八：终于到了上班高峰时间了，乘客数量上升太快，现有的进站措施已经无法满足，越来越多的人开始抱怨、
+拥挤，情况越来越糟。单单增加刷卡机已经不行了，此时的乘客就相当于“请求”，乘客不是在地铁进站排队，就是
+在站台排队等车，已经造成严重的“堵塞”，那么增加发车频率（加快应用服务器、数据库的处理速度）、增加车厢
+数量（增加内存、增大吞吐量）、增加线路（增加服务的线程）、限流、分流等多种措施便应需而生。
+
+
+
+loadrunner三个主要功能模块：
+1.Virtual User Generator：使用在创建Virtual User脚本
+2.Controller：用在定义场景阶段和运行场景阶段
+3.Analysis：用在分析结果阶段
+
+loadrunner的一些概念：
+1.Scenario：场景。所谓场景是指在每个测试过程中发生的事件。
+2.Vusers：虚拟用户。LoadRunner使用多线程或者多进程来模拟用户对应用程序操作时产生的压力，一个场景可以包括多个虚拟用户，深追成千上万个虚拟用户。
+3.Vuser Script：脚本。用脚本来描述Vusers的场景中执行的动作。
+4.Transaction：事务。事务代表了用户的某个业务过程，需要衡量这些业务过程的性能。
+5.rendezvous：集合。当我们测试多个用户并发时，每个用户执行到该事务脚本的先后顺序是不确定的，所以得到的测试结果也并不是一个完全并发的极限测试结果。
+                        在开始事务之前，插入一个“集合点”，呢么在多用户执行时，就可以将用户请求停下来。直到用户数量达到满足的条件（默认是100%的用户都到达集合点）
+                        那么所有的用户都将同时发生接下来的请求。
+
+
+在代码中找到页面中的文本：使用快照Snapshot。然后选中要做文本检查的文本内容右击，然后点击Add TxtCheckUp
+参数化：一段代码可以多个人多次运行=======1.创建关联 2.将原本的用户名参数化即使用参数来代替
+                                                                          3.右击该参数，点击Parameter Properties添加用户
+                                                                          4.点击上方的Replay中的Run Time Settings中general中的 number of lterations改为刚刚添加的用户个数（要运行的用户个数）
+
+
+
+检查还可以使用日志输出  lr_log_message("===================");
+                                       lr_output_message("username=%s",lr_eval_string("{username}");
+                                       lr_log_message("===================");
+
+
+性能测试的类型：
+1.基准测试：有基础的标准
+2.狭义性能测试
+3.负载测试：分为并发测试和容量测试
+                   并发测试：是通过模拟用户的并发访问，测试多用户并发访问同一个应用，同一个模块或者数据记录时是否存在死锁或者其它性能（3 5 8）
+                                   是在其他指标不变的情况下，改变的是并发数，目的是确定用户并发数
+                   容量测试：在软件、硬件等条件下一定的条件下，确定用户的容量
+4.压力测试：一般在用户的最大负载之下。是测试系统在一定饱和状态下，例如CPU、内存等在饱和使用状态下，系统能够处理的会话能力，以及系统能否出现错误。
+                    压力测试的目的是为了揭露高负载下的问题，例如资源竞争、同步问题、内存泄漏等。是通过确定一个系统的瓶颈或者不能接受的性能点，来获得系统提供的最大服务级别的测试
+                    负载测试的目的是测试当负载逐渐增加时，系统各项性能指标的变化状况。
+5.配置测试：通过被测试系统的软件、硬件环境的调整，了解各种不同环境对系统性能英雄的程度，从而找到各项资源的最优分配原则
+6.可靠性测试（疲劳测试）：通过给系统加载一定的业务压力（例如资源在70% - 90%的使用率）的情况下，让应用系统持续运行一段时间，测试系统在这种条件下是否能够稳定运行。
+7.失效恢复测试：进行该测试之前要进行备份和备份数据
+                          失效恢复测试方法是针对有备份和负载均衡的系统设计的，这种测试方法可以用来检验如果系统局部发送故障，用户能否继续使用系统，以及若这种情况发生，用户将受到多大程度的影响
+8.大数据量测试：有两种：独立的数据量测试和综合数据量测试
+                          独立的数据量测试：针对某些系统存储、传输、统计、查询等业务进行大数据量测试
+                          综合数据量测试：和压力测试、负载测试、并发测试、可靠性测试相结合的综合测试方案
+
+
+
+class my_string
+{
+public:
+     my_string(const char* str = " ")
+            :_str(new char[strlen(str) + 1])
+     {}
+     my_string(const my_string& s)
+           :_str(nullptr)
+     {
+           my_string tmp(s._str);
+           swap(tmp._str, _str);
+     }
+     my_string& operator=(my_string& s)
+     {
+           swap(s._str, _str);
+           return *this;     
+     }
+     ~my_string()
+     {
+          if(_str)
+          {
+                  delete[] _str;
+                  _str = nullptr;
+          }
+     }
+private:
+     char* _str;  
+};
+
+
+
+适配器：
+1.stack：vector、list、deque都符合这些需求先进后出
+template <class T, class Container = deque<T>>
+class my_stack
+{
+public:
+	void push(const T& x)
+	{
+		_con.push_back(x);
+	}
+	void pop()
+	{
+		_con.pop_back();
+	}
+	T& top()
+	{
+		return _con.back();
+	}
+	const T& top()
+	{
+		return _con.back();
+	}
+	size_t size()
+	{
+		return _con.size();
+	}
+	bool empty()
+	{
+		return _con.empty();
+	}
+private:
+	Container _con;
+};
+
+
+2.queue：list和deque都满足，先进先出
+template<class T, class Container = deque<T>>
+class my_queue
+{
+public:
+	void push(const T& x)
+	{
+		_con.push_back(x);
+	}
+	void pop()
+	{
+		_con.pop_front();
+	}
+	
+	T& front()
+	{
+		return _con.front();
+	}
+	const T& front() const
+	{
+		return _con.front();
+	}
+	T& back()
+	{
+		return _con.back();
+	}
+	const T& back() const
+	{
+		return _con.back();
+	}
+	
+	size_t size()
+	{
+		return _con.size();
+	}
+	bool empty()
+	{
+		return _con.empty();
+	}
+private:
+	Container _con;
+};
+
+3.priority_queue：优先级队列，默认为vector，vector和deque都满足，需要支持随机访问迭代器
+
+为什么选择deque作为stack和queue的底层默认容器？
+1.stack和queue不需要遍历（因此stack和queue没有迭代器），只需要在固定的一端或者两端进行操作。
+2.在stack中元素增长时，deque比vector的效率高，queue的元素增长时，deque不仅效率高，而且内存使用率高
+
+
+进程和线程的区别：
+1.调度：线程是CPU调度的基本单位，进程是资源分配的基本单位。在同一进程 中，线程的切换不会引起进程的切换；
+             在不同的进程中，进行线程切换，则会引起进程的切换。
+2.拥有资源：进程是拥有资源的基本单位，线程不拥有资源，但线程可以共享器隶属进程的系统资源。
+3.并发性：进程可以并发执行，而且同一进程内的多个线程也可以并发执行，大大提高了系统的吞吐量。
+4.系统开销：创建和撤销进程时，系统都要为之分配或回收资源，在进程切换时，涉及当前执行进程CPU
+                   环境的保存以及新调度的进程CPU环境的设置；而线程切换时只需保存和设置少量寄存器内容，
+                   因此开销很小，另外，由于同一进程内的多个线程共享进程的地址空间，因此这些线程之间的
+                   同步与通信比较容易实现，甚至无须操作系统的干预。
+5.通信方面：进程间通信需要借助操作系统，而线程间可以直接读/写进程数据段来进行通信。同一个进程下，
+                   线程共享全局变量、静态数据等数据，进程之间的通信需要以通信的方式(IPC)进行.
+6.安全方面：多进程程序更安全，生命力强，一个进程死掉不会对另一个进程造成影响（源于有独立的地址空间）；
+                   多线程程序更不易维护，一个线程死掉，整个进程就死掉了（因为共享地址空间）；
+7.进程对资源保护要求高，开销大，效率相对较低；线程资源保护要求不高，但开销小，效率高，可频繁切换。
+
+
+
+
+（1）多线程优点：
+
+因为共用同一块虚拟地址空间，因此通信更加灵活。（线程间通信方式：全局变量、函数传参、管道、消息队列、共享内存、信号量）
+线程的创建与销毁成本更低。
+线程的切换调度成本更低。（进程间切换时不仅仅要切换进程pcb信息，还有页表之类的。）
+（2）多线程缺点：
+
+线程间缺乏访问控制，某些系统调用以及异常是针对整个进程产生的效果。（如exit退出一个进程）
+性能损失，一个很少被外部事件阻塞的计算密集型线程往往无法与其它线程共享同一个处理器。如果计算密集型线程的数量比可用的处理器多，
+                那么可能会有较大的性能损失，这里的性能损失指的是增加了额外的同步和调度开销，而可用的资源不变。
+健壮性降低，在一个多线程程序里，因为时间分配上的细微偏差或者因共享了不该共享的变量而造成不良影响的可能性是很大的。线程之间是缺乏保护的。
+编程难度提高，编写与调试一个多线程程序比单线程程序困难得多。
+
+
+vector和list的对比：
+1.vector底层是动态顺序表，一段连续的空间。而list底层是带头结点的双向循环链表
+2.vector的底层是连续的空间不容易造成内存碎片问题，空间利用率高，缓存利用率高。而list是节点的动态开辟，小节点
+   容易造成内存碎片，空间利用率比较低
+3.vector支持随机访问，访问某个元素的效率是O(1)。而list不支持随机访问，访问某个元素的效率是O(N)
+4.vector尾插尾删的效率是O(1)，在任意位置插入和删除的效率较低，时间复杂度为O(N)，插入时可能需要增容
+  （开辟新空间，拷贝元素，释放旧空间，代价大）。而list的尾插尾删、头插头删、任意位置插入删除的效率都是O(1)
+5.vector的迭代器是原生态指针，而list的迭代器是对原生态指针进行的封装
+6.vector在插入元素时，要给所有迭代器重新赋值，因为插入元素可能导致重新扩容，导致原来的迭代器失效。删除时
+   当前迭代器要重新赋值不然会失效。而list插入元素不会导致迭代器失效，删除元素时，只会导致当前的迭代器失效，
+   不影响其他的迭代器。
+7.如果需要随机访问时，不关心插入删除效率时用vector。如果有大量插入删除操作时，不需要随机访问，用list.。
+
+
+
+string和vector<char>的对比：
+1.string中有的‘\0’，而vecto<char>中没有‘\0’
+2.string常常需要进行大小的比较，而vecto<char>没必要比较大小
+3.string重载了输入输出，vecto<char>是使用push_back()等
+
+
+resize和reverse的对比：
+1.resize既分配了空间，也创建了对象，既修改了size的大小，也修改了capacity的大小，reserve只修改了capacity的大小，没有修改size的大小。
+2.reserve：仅仅改变空间（capacity）（如果已经知道了需要多少空间则直接开空间），提高效率，只有增容没有缩容
+3.resize：开空间+初始化。不仅改变了capacity，还改变了size，放了n和值进去。size可以缩小也可以放大
+
+
+
+malloc/free 和 new/delete的对比：
+1.malloc和free是函数，new和delete是操作符
+2.malloc申请的空间没有初始化，new申请的空间可以初始化，对于自定义类型，new是先调用operator new函数申请空间，然后调用构造函数对该空间进行初始化
+3.malloc申请空间时，需要手动计算空间大小并传递，而new只需在其后跟上空间的类型即可。
+4.malloc的返回值是void*，在使用时必须强转，new不需要强转，因为其后面跟的是空间的类型
+5.malloc申请空间失败时，返回的是NULL，因此使用时必须要先判空，而new申请空间失败时会抛异常，因此在使用时不需要判空，但是需要捕获异常
+6.在对于自定义类型对象空间的申请和释放时，malloc/free只会申请和释放空间，而new在调用operator new函数申请完空间之后，会调用其构造函数进行初始化，
+   delete在调用析构函数进行对对象资源的清理之后，会调用operator delete函数进行对空间的释放。
+7.当内存池中申请空间和不能抛异常的场景下使用malloc和free。
+
+
+
+引用和指针的区别：
+1.在语法概念上，引用是别名，没有独立的空间，是和实体一块空间的
+2.引用在初始化的时候，引用一个实体之后，就不能再引用其他实体。而指针可以在任何时候指向任何类型实体
+3.引用必须在定义时初始化，指针就不需要
+4.在sizeof的时候，sizeof引用是计算实体的大小。sizeof指针是固定大小的，32位下是4字节，64位下是8字节
+5.引用自加1时，是实体加1.而指针自加1时，是将指针按照指向的类型大小向后移一个单位
+6.有多级指针，没有多级引用
+7.有NULL指针，没有NULL引用
+8.访问实体的方式不同，指针要访问指向的实体时，需要解引用，而引用编译器会自己处理
+9.使用引用比使用指针安全多了（ 由于不存在空引用，并且引用一旦被初始化指向一个对象，它就不
+能被改变为另一个对象的引用，因此引用很安全。指针可以指向别的对象，而且可以不被初始化或者初始化
+为空，因此指针不安全）
+
+
+multiset和set的区别：
+multiset中的元素是可以重复的，而set中的元素是不可以重复的（自带去重功能，保证了记录的唯一性）
+set由于需要查重处理，会降低元素插入的速度，而multiset会提高元素的插入速度。
+
+multimap和map的区别：
+multimap和map的排序默认都是按照键值对中key小于来排序的
+multimap中key是可以重复的，而map中的key是不可以重复的（自带去重功能）
+multimap中没有重载operator[]操作，而map中重载了operator[]操作
+
+
+
+重载、重定义（隐藏）、重写（覆盖）的区别：
+重载：两个函数必须在同一个作用域中。函数名必须相同、参数列表（参数类型、参数个数或者参数的顺序）必须不同。与返回值无关
+重定义（隐藏）：父类和子类中只要函数名相同的函数而且没有构成重写的都是重定义
+重写（覆盖）：要是虚函数，父类和子类的虚函数函数名、参数、返回值必须相同（协变例外）
+
+
+
+AVL树和RBTree的对比：
+红黑树和AVL树都是高效的平衡二叉树，增删查改的时间复杂度都是O(logN)，红黑树不追求绝对平衡，其只需要保证最长路径不超过最短路径的两倍
+相对而言，降低了插入和旋转的次数，所以在经常进行增删的结构中性能比AVL树更优，而且红黑树实现比较简单。
+AVL树是严格平衡的，旋转次数比较多
+
+
+
+静态绑定：又称为前期绑定（早绑定），在程序编译期间确定了程序的行为，也称静态多态。如函数重载
+动态绑定：又称为后期绑定（晚绑定），在程序运行期间，根据具体拿到的类型确定程序的具体行为，调用具体的函数，也称为动态多态
+
+
+数组和指针的区别：
+1.概念上：数组是用于存储多个相同类型的将数据集合。
+                指针相当于一个变量，但它和普通变量不一样，它存放的是其它变量的内存地址
+2.sizeof：sizeof（数组名）= 数组的长度 而计算数组的大小是：数组长度 / 数组中每个元素的字节数即sizeof（数组名）/ sizeof（数组类型）
+               指针的sizeof是固定的，32位下是4字节，64位下是8字节。
+
+
+list和vector的区别：
+1.vector底层是动态顺序表，一段连续的空间；而list底层是带头结点的双向循环链表。
+2.vector支持随机访问，访问某个元素的效率是O(1)；而list不支持随机访问，访问某个元素的效率是O(N)。
+3.vector尾插尾删的效率是O(1)，任意位置插入和删除的效率低，时间复杂度为O(N)，而且其插入的时候可能需要增容（开辟新空间、拷贝元素
+   释放旧空间，代价比较大）；而list尾插尾删、头插头删、在任意位置插入删除效率都是O(1)，不支持随机访问。
+4.vector底层是连续的空间，不容易造成内存碎片，空间利用率高，缓存利用率高。list底层是节点的动态开辟，小节点容易造成内存碎片，空间利用率低、
+   缓存率利用率低。
+5.vector的迭代器是原生态指针；而list的迭代器是对原生态指针进行的封装。
+6.vector在插入元素的时候，要给所有迭代器进行重新赋值，插入元素可能会导致迭代器失效，删除元素时，当前迭代器需要重新赋值，不然也会失效。
+   list插入元素不会导致迭代器失效，删除元素时只会导致当前迭代器失效，其他迭代器不会受影响。
+
+
+
+在序列式容器中，如果只是简单的存储元素，进行随机访问，使用vector即可；
+如果对任意位置的插入、删除比较多，使用list即可；
+而deque最大的应用就是作为标准库中的stack和queue的底层结构
+
+
+string和vector<char>的对比：
+1.string中有'\0'的，而vector<char>中没有'\0'。
+2.string经常需要比较大小，而vector<char>没必要比较大小。
+3.string重载了输入输出，而vector<char>还是用push_back等
+
+resize和reverse的区别：
+1.resize即分配了空间，也创建了对象；reserve只修改了capacity的大小，不修改size大小；resize既修改了size的大小，也可以修改capacity的大小
+   （当resize(n)中的n < capacity时）。
+2.reserve：仅仅改变了空间容量大小（capacity），如果已经知道需要多少空间直接开空间，提高效率；只有增容没有缩容（开空间时避免增容，代价大）
+3.resize：开空间 + 初始化。不仅改变了空间容量大小（capacity），而且放了n个值进去（即改变了size），size既可以放大也可以缩小。
+
+
+
+malloc/free和new/delete的区别：
+1.malloc、free是函数，new、delete是操作符
+2.malloc申请的精简没有初始化，而new 申请的空间可以初始化
+3.malloc申请空间时，需要手动计算空间大小，并传递；new只需在其后面跟上空间的类型即可。
+4.malloc返回的是void*，在使用时必须要强转，new不需要强转
+5.malloc申请空间失败时，返回的是NULL，因此使用时必须要判断是否为空；而new申请空间时会抛出异常，
+   因此在使用时不需要判空，但需要捕获异常。
+6.在自定义类型对象空间的申请时，malloc和free只会申请和释放空间。而new和free一个会在申请空间完毕之后
+   调用自定义类型的构造函数进行初始化，一个在释放空间之前，调用自定义类型的析构函数对对象进行资源清理。
+7.当是在内存池中申请空间和不能抛异常的场景下，只能使用malloc、free。
+
+
+
+为什么选择deque作为stack和queue的底层默认容器？
+1.stack和queue不需要遍历（因此stack和queue没有迭代器），只需要在固定的一端或者两端进行操作
+2.在stack中元素增长时，deque比vector效率高；queue中的元素增长时，deque不仅效率高，而且内存使用率高（list会造成内存碎片，
+   内存使用率、空间利用率都比较低）
+
+
+
+动态绑定和静态绑定：
+1.动态绑定：又称为后期绑定（晚绑定），是在程序的运行期间，根据具体拿到的类型确定程序的具体行为，调用具体的函数，也称为动态多态。
+2.静态绑定：又称为前期绑定（早绑定），在程序编译期间确定了程序的行为，也称为静态多态，如函数重载
+
+
+
+
+
+软链接和硬链接的区别：
+1.软链接文件是一个独立的文件，类似于文件的快捷方式，有自己的inode节点。而硬链接文件是一个文件的目录项
+   类似于一个文件的别名，与源文件指向相同的一个inode节点。
+2.软链接文件通过存储的源文件路径找到源文件inode，进而访问文件数据。但是硬链接通过自己的inode节点号直接
+   访问文件数据。
+3.删除源文件时，软链接失效，硬链接仅仅是链接数-1，依然可以访问。（删除一个文件时，是删除文件的一个目录项，
+   当该文件链接数为0时才是真正的删除）
+4.软链接可以跨分区建立，但是硬链接不可以
+5.软链接可以对目录创建，但是硬链接不可以
+
+
+
+
+AVLTree和RBTree的比较：
+1.红黑树和AVL树都是高效的平衡二叉搜索树，增删查改的时间复杂度都是O(logN)，红黑树不追求绝对平衡，只需要保证最长路径不超过最短路径的两倍即可。
+  相对而言，降低了插入和旋转的次数，所以在经常要进行增删查改的结构中性能比AVLTree更优，而且红黑树实现比较简单
+2.AVLTree是严格平衡的，旋转次数比较多
+
+
+
+
+
+SQL中的delete、truncate和drop的区别：
+1.delete：
+（1）是DML（数据操作语言），执行delete操作时，每次从表中删除一行，并且同时将该行的删除操作记录在redo和undo表空间中以便进行回滚
+         （rollback）和重做操作，但要注意表空间要足够大，需要手动提交（commit）操作才能生效，可以通过rollback撤销操作
+（2）delete可根据条件删除表中满足条件的数据，如果不指定where子句，那么删除表中的所有记录
+（3）delete语句不影响表所占用的extent，高水线（high watermark）保持原位置不变
+2.truncate：
+（1）truncate是DDL，（数据定义语言）会隐式提交，所以不能回滚、不能触发触发器
+（2）truncate会删除表中所有记录，并且将重新设置高水线好所有的索引，缺省情况下将空间释放到minextents个extent，除非使用
+         reuse storage，不会记录日志，所以执行速度很快。但不能rollback撤销操作（如果一不小心表truncate掉，也是可以恢复的，
+         但是不能通过rollback恢复）
+（3）对于外键约束引用的表，不能使用truncate table，而应使用不带where子句的delete语句
+（4）truncate table不能用于参与了索引视图的表
+3.drop：
+（1）drop是DDL，会隐式提交，所以不能回滚，不能触发触发器
+（2）drop语句删除表结构以及所有数据，并将表所占用的空间全部释放
+（3）drop语句将删除表的结构以及所依赖的约束、触发器、索引，依赖于该表的存储过程/函数将保留，但是变为invalid状态
+
+
+
+
+
+
+
+
+笔试题：现在有一个C类网络192.168.22.3/24（表示前24位是网络号），现在公司有4个部门，要求这个网络划分出四个子网，平均分配主机，请问怎么划分，划分后的各个子网的网络号，以及IP地址范围，以及子网掩码是多少？
+                               24位网络号代表当前网络的网络号为 192.168.22.0
+                               C类有256(2^8)个主机，平均划分出4个子网---------每个子网有64个主机号  0 ~ 63
+                               子网掩码取反 ------ 最大的主机号 ------   最大主机号 + 1 = 当前网络的主机号个数
+                               最大主机号取反 = 子网掩码
+                               63 = 0011 1111   ~ 63 = 1100 0000 = 192
+                               故子网掩码为 255.255.255.192
+                               网络号 = 子网掩码 & IP地址 （主机号为0表示的是网络号）
+                               第一个子网 192.168.22.0 ~ 192.168.22.63     网络号 192.168.22.0
+                               第二个子网 192.168.22.64 ~ 192.168.22.127  网络号 192.168.22.64
+                               第三个子网 192.168.22.128 ~ 192.168.22.191 网络号 192.168.22.128
+                               第四个子网 192.168.22.192 ~ 192.168.22.255 网络号 192.168.22.192   
+
+
+
+
+
+
+
+
+
+lambda表达式的举例：
+如 交换 a和b
+[a, b] {int tmp = a; a = b; b = tmp;};
+
+
+完整版：
+auto swap1 = [&a, &b]  ()mutable  ->void {int tmp = a; a = b; b = tmp;};
+swap1();
+
+auto swap2 = [] (int& a, int& b) {int tmp = a; a = b; b = tmp;};
+swap2();
+
+autoe swap3 = [&] () {int tmp = a; a = b; b = tmp;};
+swap3();
+
+
+
+
+auto是C++11中的类型推导，通过初始化来推导变量类型，auto e =_________通过初始化去推导，给你初始化什么，e类型就是什么
+decltypeC++11中用于推导表达式的结果的类型
+
+
+dynamic_cast<typeid>(expression)（运行时类型检查）作用：将一个基类对象指针（或引用）cast到继承类指针，dynamic_cast会根据基类指针是否真正指向继承类指针来做相应处理，
+ typeid只能看类型，不能用其结果来定义类型。typeid(v),name()查看对象v类型。
+
+
+完美转发
+fun(std::forward<T> (t));
+
+
+explicit关键字加载构造函数前阻止转换构造函数进行的隐式转换的发生
+RTTI：Run-time Type Identification：运行时类型识别（支持的方式：typeid运算符和dynamic_cast运算符）
+C++中四种类型转化并且应用场景：
+1.static_cast<type-id> (expression)用于非多态类型的转换（静态转换），编译器隐式执行的任何类型转换都可以用static_cast，但它不能用于两种不相关类型进行转换
+2.reinterpret_cast<type-id> (expression)操作符通常为操作数的位模式提供较低层次的重新解释，用于将一种类型转换成另一种不同的类型。
+3.const_cast<type-id> (expression)最常用的用途就是删除变量的const属性，方便赋值
+4.dynamic_cast<type-id> (expression)用于将一个父类对象的指针/引用转换为子类对象的指针/引用（动态转换）。只能用于含有虚函数的类。
+                                                            要先检查能否转换成功，指针失败返回NULL，引用失败抛异常
+                                           向上转型：子类对象指针/引用-》父类指针/引用，不需要转换，赋值兼容规则
+                                           向下转型：父类对象指针/引用-》子类指针/引用（用dynamic_cast是安全的）
+
+
+
+
+
+
+
+
+白盒测试：
+（1）语句覆盖：所有的“语句”都要覆盖一遍。就是设计若干个测试用例，运行被测程序，使得每一可执行语句至少执行一次。
+（2）判定覆盖：包含语句覆盖，每个判断T、F各一次。使设计的测试用例保证程序中每个判断的每个取值分支至少经历一次。
+（3）条件覆盖：包含语句覆盖，每个条件T、F各一次是指选择足够的测试用例，使得运行这些测试用例时，判定中每个条件的所有可能结果至少出现一次，但未必能覆盖全部分支。
+（4）判定条件覆盖：包含判定覆盖、条件覆盖。说白了就是我们设计的测试用例可以使得判断中每个条件所有的可能取值至少执行一次（条件覆盖），同时每个判断本身所有的结果
+         也要至少执行一次（判定覆盖）。不难发现判定条件覆盖同时满足判定覆盖和条件覆盖，弥补了两者各自的不足，但是判定条件覆盖并未考虑条件的组合情况。
+（5）条件组合覆盖：每个条件的每种组合。在白盒测试法中，选择足够的测试用例，使所有判定中各条件判断结果的所有组合至少出现一次，满足这种覆盖标准成为条件组合覆盖。
+         意思是说我们设计的测试用例应该使得每个判定中的各个条件的各种可能组合都至少出现一次。显然，满足条件组合覆盖的测试用例一定是满足判定覆盖、条件覆盖和判定条件覆盖的。
+（6）路径覆盖：所有执行路径
+
+语句覆盖是在所有的测试方法中一种最弱的覆盖
+判定覆盖和条件覆盖比语句覆盖强，满足判定条件覆盖的测试用例一定满足语句覆盖、判定覆盖、条件覆盖
+路径覆盖是一种比较强的覆盖，但未必考虑判定条件结果的组合，并不能代替条件覆盖和条件组合覆盖。
+
+
+
+
+保证可靠传输的机制：确认应答机制、超时重传机制
+避免丢包的机制：滑动窗口机制（流量控制）、拥塞控制
+提高传输性能的机制：快速重传机制、延迟应答机制、捎带应答机制
+
+
+OSI七层参考模型：
+应用层 (Application)
+网络服务与最终用户的一个接口。
+协议有：HTTP FTP TFTP SMTP SNMP DNS TELNET HTTPS POP3 DHCP
+
+表示层（Presentation Layer）
+数据的表示、安全、压缩。（在五层模型里面已经合并到了应用层）
+格式有，JPEG、ASCll、DECOIC、加密格式等
+
+会话层（Session Layer）
+建立、管理、终止会话。（在五层模型里面已经合并到了应用层）
+对应主机进程，指本地主机与远程主机正在进行的会话
+
+传输层 (Transport)
+定义传输数据的协议端口号，以及流控和差错校验。
+协议有：TCP UDP，数据包一旦离开网卡即进入网络传输层
+
+网络层 (Network)
+进行逻辑地址寻址，实现不同网络之间的路径选择。
+协议有：ICMP IGMP IP（IPV4 IPV6） ARP RARP
+
+数据链路层 (Link)
+建立逻辑连接、进行硬件地址寻址、差错校验[2] 等功能。（由底层网络定义协议）
+将比特组合成字节进而组合成帧，用MAC地址访问介质，错误发现但不能纠正。
+
+物理层（Physical Layer）
+建立、维护、断开物理连接。（由底层网络定义协议）
+
+
+tcp和udp的比较：
+ - TCP和UDP都是传输层的协议，传输层主要功能是负责端与端之间的数据传输。
+ - TCP协议：传输控制协议，特点是面向连接、可靠传输、面向字节流
+ - UDP协议：用户数据报协议，特点是无连接、不可靠、面向数据报
+ - TCP协议提供的是面向连接的传输，通信之前通过三次握手建立连接，而UDP提供的是无连接的传输，通信之前不需要建立连接
+ - TCP协议提供的是可靠的传输，所谓可靠传输就是指有序的、不会丢失的、不重复的数据。而UDP提供不可靠传输。
+ - TCP协议是面向字节流的传输。可以进行有序的、可靠的、双向的、继续连接的字节流传输，因此，它可以将信息分割成组进行传输，而UDP协议是一个面向数据报的传输，不具备分组。
+ - TCP协议提供拥塞控制和流量控制的机制。而UDP协议不提供相应的机制。
+ - TCP协议虽然数据传输比较灵活，但是会出现粘包的问题。在缓冲区中TCP可能将多条数据当作一条数据进行处理。而UDP不会出现粘包问题（在不定长数据的应用层头部添加了数据长度字段）。面向数据报，数据的收发是整条进行的，虽然不够灵活，但是不会产生粘包问题。
+ - 在传输层基于TCP协议的应用层协议有：HTTP/FTP
+ - 在传输层基于UDP协议的应用层协议有：NFS(网络文件系统) / TFTP(简单文件传输协议) / DHCP(动态主机配置协议) / BOOTP(启动协议，用于无盘设备启动) / DNS(域名解析协议)
+
+
+测试用例的一般包括：
+测试环境、操作步骤、测试方法、测试数据、测试前提、预期结果等
+
+堆与栈的比较：
+1.申请方式
+(1)栈（satck）:由系统自动分配。
+(2)堆（heap）:需程序员自己申请（c：调用malloc,realloc,calloc申请 free 来释放）,并指明大小，并由程序员进行释放。容易产生内存泄漏.
+2.申请大小的限制
+（1）栈：在windows下栈是向底地址扩展的数据结构，是一块连续的内存区域(它的生长方向与内存的生长方向相反)。栈的大小是固定的。如果申请的空间超过栈的剩余空间时，将提示overflow。
+（2）堆：堆是高地址扩展的数据结构（它的生长方向与内存的生长方向相同），是不连续的内存区域。这是由于系统使用链表来存储空闲内存地址的，自然是不连续的，而链表的遍历方向是由底地址向高地址。
+               堆的大小受限于计算机系统中有效的虚拟内存。
+对于堆来讲，对于堆来讲，频繁的new/delete势必会造成内存空间的不连续，从而造成大量的碎片，使程序效率降低。对于栈来讲，则不会存在这个问题。
+3.申请效率
+（1）栈由系统自动在执行函数时分配的内存；栈内存分配运算内置于处理器的指令集中，效率很高，但是分配的内存容量有限。
+（2）堆是由malloc分配的内存，一般速度比较慢，而且容易产生碎片，不过用起来最方便，是在程序运行过程当中分配的内存。
+4.分配方式：
+（1）堆都是动态分配的，没有静态分配的堆。
+（2）栈有两种分配方式：静态分配和动态分配。静态分配是编译器完成的，比如局部变量的分配。动态分配由alloca函数进行分配，但是栈的动态分配和堆是不同的。它的动态分配是由编译器进行释放，无需手工实现。
+
+
+
+get和post的区别：
+1.get请求是可以缓存的；post请求不可以缓存
+2.get请求页面后退时，不产生影响；post请求页面后退时，会重新提交请求
+3. GET：请求实体资源，没有正文，提交数据是通过URL的查询字符串，有大小限制。 ② POST：向服务器提交表单数据，提交的数据是放在正文中的，正文没有大小限制。 
+4.get方式不安全，post安全。
+5.GET产生一个TCP数据包；POST产生两个TCP数据包
+   对于GET方式的请求，浏览器会把http header和data一并发送出去，  服务器响应200（返回数据）；
+   而对于POST，浏览器先发送header，服务器响应100 continue，浏览器再发送data，服务器响应200 ok（返回数据）。
+6. get方式只能支持ASCII字符，向服务器传的中文字符可能会乱码，post支持标准字符集，可以正确传递中文字符。
+
+
+
+OPTIONS方法用来查询针对请求URL指定资源支持的方法（客户端询问服务器可以提交哪些请求方法）
+              它用于获取当前URL所支持的方法。若请求成功，则它会在HTTP头中包含一个名为“Allow”
+               的头，值是所支持的方法，如“GET, POST”。
+
+【DELETE：删除文件】
+    指明客户端想让服务器删除某个资源，与PUT方法相反，按URL删除指定资源
+
+
+
+
+
+
+
+有一个商店的数据，记录客户及购物情况，有以下三个表组成：
+商品goods(商品编号goods_id，商品名goods_name, 单价unitprice, 商品类别category, 供
+应商provider)
+客户customer(客户号customer_id,姓名name,住址address,邮箱email,性别sex，身份证
+card_id)
+购买purchase(购买订单号order_id,客户号customer_id,商品号goods_id,购买数量nums)
+
+一、创建数据库
+CREATE DATABASE IF NOT EXISTS Test;
+选择数据库
+USE Test;
+二、创建表：
+（1）商品表：
+CREATE TABLE Goods(
+goods_id INT NOT NULL  PRIMARY KEY COMMENT '商品编号',
+goods_name VARCHAR(32) COMMENT '商品名',
+unitprice INT COMMENT '单价',
+category VARCHAR(12) COMMENT '商品类别',
+provider VARCHAR(64) COMMNET '供应商'
+);
+
+（2）客户表
+CREATE TABLE Customer(
+customer_id INT COMMENT '客户号',
+name VARCHAR(32) COMMENT '姓名',
+address VARCHAR(256) COMMENT '住址',
+email VARCHAR(64)  COMMENT '邮箱',
+sex BIT COMMENT '性别',
+card_id VARCHAR(18) COMMENT '身份证'
+);
+
+（3）购买表
+CREATE TABLE Purchase(
+order_id INT COMMENT '购买订单号',
+customer_id INT COMMENT '客户号',
+goods_id INT COMMENT '商品号',
+nums INT COMMENT '购买数量'
+);
+
+三、删除表
+DROP TABLE Purchase;
+DELETE FROM Purchase;
+
+四、增加数据
+（1）新增一行：
+INSERT INTO Goods VALUES(001, '薯片', 5, '零食', '乐事')
+
+（2）新增多行：
+INSERT INTO Goods (goods_id, goods_name) VALUES
+('002', '锐澳'),
+('003', '饼干'),
+('110', '苹果');
+
+五、删除数据：
+DELETE FROM Goods
+WHERE good_id = '001';
+
+六、修改表数据：
+UPDATE Goods
+SET good_id = '010'
+WHERE good_name = '饼干';
+
+七、查询数据：
+（1）全列查询
+SELECT * 
+FROM Purchase;
+
+（2）指定列查询
+SELECT goods_id, goods_name, unitprice
+FROM Goods;
+
+（3）去重查询
+SELECT DISTINCT goods_name
+FROM Goods;
+
+（4）排序查询
+SELECT goods_id, goods_name
+FROM Goods
+[WHERE....]
+ORDER BY unitprice;
+
+//降序
+SELECT goods_id, goods_name
+FROM Goods
+[WHERE ...]
+ORDER BY unitprice DESC;
+
+（5）查询表达式并且取别名
+SELECT name, chinese + math + english AS total
+FROM Student
+ORDER BY total DESC;
+
+（6）分页查询（LIMIT）
+SELECT ...
+FROM TABLE_NAME
+...
+LIMIT n; //从0开始，筛选n条结果
+
+SELECT ...
+FROM TABLE_NAME
+...
+LIMIT s, n; //从s开始，筛选n条结果
+
+
+SELECT ...
+FROM TABLE_NAME
+...
+LIMIT n OFFSET s; //从s开始，筛选n条结果，比上个用法更明确
+
+
+
+八、插入查询结果
+INSERT INTO Test_Goods(goods_id, goods_name)
+SELECT goods_id, goods_name
+FROM Goods;
+
+
+九、聚合查询
+（1）COUNT
+SELECT COUNT(*)
+FROM Goods;
+
+（2）SUM
+SELECT SUM(unitprice)
+FROM Goods;
+
+（3）AVG
+SELECT AVG(unitprice)
+FROM Goods；
+
+（4）MAX
+SELECT MAX(unitprice)
+FROME Goods;
+
+（5）MIN
+SELECT MIN(unitprice)
+FROM Goods;
+
+（6）GROUP BY子句查询每个商品的最高价格、最低价格和平均价格
+SELCECT MAX(unitprice), MIN(unitprice), AVG(unitprice)
+FROM Goods
+GROUP BY good_id;
+
+（7）HAVING联合查询
+显示价格低于50的商品名称和商品id
+SELECT good_id, good_name
+FROM Goods
+GROUP BY good_id
+HAVING unitprice < 50;
+
+
+
+连接分为外连接和内连接，自连接
+内连接是指两张表都满足条件的部分，即公共部分
+外连接分为左连接和右连接。左侧的表完全显示就是左外连接；右侧的表完全显示就是右外连接
+自连接是指在同一张表上连接自身进行查询
+
+
+
+十、合并查询
+（1）union该操作符用于取得两个结果集的并集，会自动去掉结果集中的重复行。
+（2）union all该操作符用于取得两个结果集的并集，不会去掉结果集中的重复行
+
+
+
+
+
+
+
+webdriver：
+自动化测试的具体实现：
+1.分析：总体把握系统逻辑，分析出系统的核心体系架构
+2.设计：设计测试用例，测试用例要足够明确和清晰，覆盖面广而精
+3.实现：实现脚本，有两个要求一个是断言，一个是合理的运用参数化
+4.执行：执行脚本远远没有我们想象中简单，脚本执行过程中的异常需要我们仔细去分析原因
+5.总结：测试结果的分析，和测试过程的总结是自动化测试的关键
+6.维护：自动化测试脚本的维护是一个难以解决但又要必须解决的问题
+7.分析：在自动化测试过程中深刻分析自动化用例的覆盖风险和脚本维护的成本
+
+
+
+#对鼠标的操作
+#context_click() 右击
+#double_click() 双击
+#drag_and_drop() 拖动
+#move_to_element() 移动
+#ActionChains动作链
+driver.find_element_by_id("kw").send_keys("劳动节")
+su1 = driver.find_element_by_id("su")
+driver.maximize_window()
+ActionChains(driver).context_click(su1).perform() #右击
+time.sleep(5)
+ActionChains(driver).double_click(su1).perform() #双击
+time.sleep(5)
+tiltle = driver.find_element_by_link_text("劳动节_百度百科")
+target = driver.find_element_by_id("su")
+#把劳动节拖动到百度百科，拖不动
+ActionChains(driver).drag_and_drop(tiltle, target).perform() #拖动
+
+time.sleep(6)
+driver.quit()
+
+
+
+
+
+
+#控制浏览器的滚动条
+driver.find_element_by_id("kw").send_keys("乃万")
+driver.find_element_by_id("su").click()
+driver.set_window_size(400, 900)
+time.sleep(3)
+#将页面滚动条拖动到底部
+js = "var q=document.documentElement.scrollTop=100000" #javascript脚本
+driver.execute_script(js)
+time.sleep(6)
+#将页面滚动条拖动到顶部
+js = "var q=document.documentElement.scrollTop=0" #javascript脚本
+driver.execute_script(js)
+
+
+
+
+
+
+#多层框架/窗口定位
+#switch_to.frame()
+#switch_to.window()
+driver = webdriver.Firefox()
+time.sleep(3)
+file_path = 'file:///' + os.path.abspath("C:\\Users\\99742\\Desktop\\frame.html")
+driver.get(file_path)
+driver.maximize_window()
+
+#要先到第一层然后才可以到第二层然后才可以用第二层的东西
+driver.switch_to.frame("f1")
+driver.switch_to.frame("f2")
+driver.find_element_by_id("kw").send_keys("张楚寒")
+driver.find_element_by_id("su").click()
+
+#此时如果要用f1页面的东西必须先跳转回到默认页面然后再进入f1页面
+driver.switch_to.default_content()
+driver.switch_to.frame("f1")
+driver.find_element_by_link_text("click").click()
+
+
+
+unittest：
+批量执行测试：
+unittest创建测试套件的方法
+方法一：addTest():   makeSuite()
+方法二：TestLoader().loadTestsFromTestCase()
+方法三：defaultTestLoader.discover()
+
+import unittest
+from src0409 import Baidu1040601
+from src0409 import Baidu204062
+
+def createsuite():
+      suite = unittest.TestSuite();
+      //将测试用例加入测试套件中
+      suite.addTest(Baidu204062.Baidu1("test_hao"))
+      suite.addTest(Baidu204062.Baidu1("test_baidusearch"))
+      suite.addTest(Baidu1040601.Baidu2("test_baidusearch"))
+      return suite
+if __name__=="__main__":
+      suite = createsuite()
+      runner = unittest.TextTestRunner(verbosity = 2)
+      runner.run(suite)
+
+
+makeSuite()和TestLoader()方法的应用：把所有测试方法一次性添加到测试套件中
+makeSuite()方法可以实现把测试用例类内所有的测试case组成的测试套件TestSuite
+TestLoader方法用于创建类和模块的测试套件，一般的情况下，使TestLoader.loadTestsFromTestCase(TestClass)来加载测试类
+
+def createsuite():
+      suite = unittest.TestSuite()
+      suite.addTest(unittest.makeSuite(Baidu1040601.Baidu1))
+      suite.addTest(unittest.makeSuite(Baidu204062.Baidu1))
+      return suite
+if __name__ == "__main__":
+      suite = createsuite()
+      runner = unittest.TextTestRunner(verbosity = 2)
+      runner.run(suite)
+
+
+def createsuite():
+      suite1 = unittest.TestLoader().loadTestsFromTestCase(Baidu1040601.Baidu1)
+      suite2 = unittest.TestLoader().loadTestsFromTestCase(Baidu204062.Baidu1)
+      suite = unittest.TestSuite([suite1, suite2])
+      return suite
+if __name == "__main__":
+      suite = createsuite()
+      runner = unittest.TextTestRunner(verbosity = 2)
+      runner.run(suite)
+
+
+
+discover()的应用：通过递归的方式找到其子目录中从指定的目录开始，找到所有测试模块并返回一个包含它们对象的TestSuite，然后进行加载与模块匹配唯一的测试文件
+                             discover(dir, pattern, top_level_dir = None)
+def createsuite():
+      discovers = unittest.defaultTestLoader.discover("../src0409", pattern = "Baidu*.py", top_level_dir = None)
+      print(discovers)
+      return discovers
+
+
+
+生成HTML报告：
+if __name__ == "__main__":
+      curpath = sys.path[0]
+      print(sys.path)
+      print("================")
+      print(sys.path[0])
+      if not os.path.exists(curpath + '/resultreport')
+               os.makedirs(curpath + '/resultreport')
+      now = time.strftime("%Y-%m-%d-%H %M %S", time.localtime(time.time()))
+      filename = curpath + '/resultreport' + now + 'resultreport.html'
+      with open(filename, 'wb') as fp:
+             runner = HTMLTestRunner.HTMLTestRunner(stream=fp, title=u'测试报告', description=u'用例说明',
+                                                                                    verbosity = 1)
+             suite = createsuite()
+             runner.run(suite)
+
+
+
+
+一、登录模块测试用例
+      1.打开系统
+      2.填写用户名 （小于等于16位，输入大小写字母和数字）
+      3.填写密码     （小于等于8位，只能输入大小写字母和数字）
+      4.登录
+DDT：数据驱动
+#每次都传一个数据，进行代码运行。总共要运行三次，三次分别是传“王凯”、传“丁禹兮”，传“特朗普”
+
+@date("王凯", "丁禹兮", "特朗普")
+def test_hao(self, value): 
+       driver = self.driver
+       driver.get(self.base_url + "/")
+       driver.find_element_by_id("kw").clear()
+       driver.find_element_by_id("kw").send_keys(value)
+       driver.find_elemrnt_by_id("su").click()
+       time.sleep(8)
+       print(value)
+       print(driver.title)
+
+读txt文件中的参数：
+def getCsv(file_name):
+      rows = []
+      path = sys.path[0]
+      print(path)
+      with open(path + '/data' + file_name, 'rt') as f:  
+             readers= csv.reader(f, delimiter= ',', quotechar = '|')
+             next(readers, None)
+             for row in readers:
+                   tmprows=[]
+                   for i in row:
+                          tmprows.append(i)
+                   rows.append(tmprows)
+      return rows
+
+@data(*getCsv('test_baidu+data.txt'))
+@unpack #将第一个数据和self对应，第二个数据和value对应等 
+def test_hao(self, value, expected_value): 
+       driver = self.driver
+       driver.get(self.base_url + "/")
+       driver.find_element_by_id("kw").clear()
+       driver.find_element_by_id("kw").send_keys(value)
+       driver.find_elemrnt_by_id("su").click()
+       time.sleep(8)
+       print(value)
+       print(driver.title)
