@@ -1,0 +1,63 @@
+#include <bits/stdc++.h>
+using namespace std;
+const int N = 16;
+
+bool st[1 << N];
+int f[N][1 << N];
+int F[N];
+int a[N][N];
+
+const int M = 10000;
+int n,m;
+int main()
+{
+    cin >> m >> n;
+    
+    for(int i = 1; i <= m; i++)
+    {
+        for(int j = 1; j <= n; j++)
+        {
+            cin >> a[i][j];
+            F[i] = (F[i] << 1) + a[i][j];
+        }
+        // cout << F[i] << endl;
+    }
+    
+    for(int i = 0; i < ( 1 << n) ; i++)
+    {
+        
+        // i与 左 与 右 不能有相邻的1
+        st[i] = ((( i << 1) & i) == 0) && ( ( ( i >> 1) & i) == 0);
+    }
+    
+    f[0][0] = 1;
+    
+    for(int i = 1; i <= m; i++) // 本行
+    {
+        for(int j = 0; j < ( 1 << n) ; j++) // 枚举状态
+        {
+            if(st[j] && (j & F[i]) == j)  //F[i] 此时是 110001 也就是 我们选取状态的时候 必须要是 F[i]的子集，
+                                          // 比如 F[i] = 110001 的时候  F[i] 可以是100001
+            {
+                //枚举下一行的状态
+                for(int k = 0; k < ( 1 << n) ; k++)
+                {
+                    if( (k & j) == 0) // 上下 两行不兼容的 时候
+                    {
+                        f[i][j] = ( f[i][j] + f[i - 1][k]) % M;
+                    }
+                }            
+            }
+        }
+    }
+    
+    int ans = 0;
+    for(int i = 0; i < (1 << n) ; i++)
+    {
+        ans += f[m][i];
+        cout << f[m][i] << " ";
+        ans %= M;
+    }
+    cout << endl;
+    printf("%d\n", ans);
+}
