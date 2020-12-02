@@ -1,0 +1,70 @@
+
+#include <bits/stdc++.h>
+uisng namespace std;
+
+const int N = 1000;
+
+double a[20][20];
+double x[20],y[20];
+
+double f[18][34000];
+
+int N;
+
+double distance(int w, int v)
+{
+    return sqrt((x[v]-x[w])*(x[v]-x[w])+(y[v]-y[w])*(y[v]-y[w]));//两点间距离公式 
+}
+int main()
+{
+    int i,j,k;
+    double ans;
+    
+    memset(f, 127, sizeof f);
+    ans = f[0][0];
+    
+    cin >> N;
+    for(int i = 1; i <= N; i++)
+    {
+        scanf("%lf%lf",&x[i], &y[i]);
+    }
+    x[0] = 0;
+    y[0] = 0;
+    
+    for(int i = 0; i <= N; i++)
+    {
+        for(int j = i + 1, j <= N; j++)
+        {
+            a[i][j] = distance(i,j);
+            a[j][i] = a[i][j];
+        }
+    }
+    for(int i = 1; i <= N; i++)
+    {
+        f[i][1 << (i - 1)] = a[0][i];
+    }
+    for(int k = 1; k < ( 1 << N); k++)
+    {
+         for(int i = 1; i <= N; i++)
+         {
+             if(k & (1 << (i - 1)) == 0)
+                continue;
+            for(int j = 1; j <= N; j++)
+            {
+                if(i == j)
+                    continue;
+                if((k & (1 <<(j - 1))) == 0)
+                    continue;
+                // 都到过 i,j点的时候 才你那个进行 更新
+                f[i][k] = min(f[i][k], f[j][k - (1 << (i - 1))] + a[i][j]);
+            }
+         }
+    }
+    
+    for(int i = 1; i <= N; i++)
+    {
+        ans = min(ans, f[i][(1 << N) - 1]); // f[i][j] : 最后到达i点 且状态为j的方法数
+    }
+    printf("%d\n",ans);
+}
+
